@@ -1,28 +1,35 @@
-import { Button, Chip } from "@mui/material";
+import classNames from "classnames";
+import { Navigate, NavLink, Route, Routes } from "react-router-dom";
+import Home from "./pages/Home";
+import Sub1 from "./pages/Sub1";
 
 function App() {
   return (
-    <div className="flex-1 flex items-center justify-center">
-      <div>
-        <Button variant="contained">하이</Button>
-        <hr className="my-5" />
-        <span className="font-bold text-3xl">
-          <span className="text-[color:var(--mui-color-primary-main)]">
-            안녕
-          </span>
-          하세요.
-        </span>
-        <hr className="my-5" />
-        <Chip
-          label={
-            <span>
-              <i className="fa-solid fa-bell"></i> Chip Filled
-            </span>
+    <>
+      <header className="p-4 flex">
+        <NavLink
+          to="/home"
+          className={({ isActive }) =>
+            classNames("p-4", { "text-red-500": isActive })
           }
-          className="!pt-1"
-        />
-      </div>
-    </div>
+        >
+          홈
+        </NavLink>
+        <NavLink
+          to="/sub1"
+          className={({ isActive }) =>
+            classNames("p-4", { "text-red-500": isActive })
+          }
+        >
+          서브1
+        </NavLink>
+      </header>
+      <Routes>
+        <Route path="/home" element={<Home />} />
+        <Route path="/sub1" element={<Sub1 />} />
+        <Route path="*" element={<Navigate to="/home" />} />
+      </Routes>
+    </>
   );
 }
 
