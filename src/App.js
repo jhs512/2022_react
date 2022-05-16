@@ -1,33 +1,57 @@
-import classNames from "classnames";
-import { Navigate, NavLink, Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
-import Sub1 from "./pages/Sub1";
+import { AppBar, Toolbar } from "@mui/material";
+import {
+  Navigate,
+  NavLink,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
+import { NoticeSnackbar } from "./components/NoticeSnackbar";
+import Edit from "./pages/Edit";
+import Main from "./pages/Main";
+import Write from "./pages/Write";
 
 function App() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   return (
     <>
-      <header className="p-4 flex">
-        <NavLink
-          to="/home"
-          className={({ isActive }) =>
-            classNames("p-4", { "text-red-500": isActive })
-          }
-        >
-          홈
-        </NavLink>
-        <NavLink
-          to="/sub1"
-          className={({ isActive }) =>
-            classNames("p-4", { "text-red-500": isActive })
-          }
-        >
-          서브1
-        </NavLink>
-      </header>
+      <AppBar position="fixed">
+        <Toolbar>
+          <NavLink
+            to="/main"
+            className="font-bold select-none self-stretch flex items-center mr-auto"
+          >
+            HAPPY NOTE
+          </NavLink>
+
+          {location.pathname == "/main" && (
+            <NavLink
+              className="select-none self-stretch flex items-center"
+              to="/write"
+            >
+              할일추가
+            </NavLink>
+          )}
+          {location.pathname != "/main" && (
+            <span
+              className="select-none cursor-pointer self-stretch flex items-center"
+              onClick={() => navigate(-1)}
+            >
+              다음에 할래요.
+            </span>
+          )}
+        </Toolbar>
+      </AppBar>
+      <Toolbar />
+      <NoticeSnackbar />
       <Routes>
-        <Route path="/home" element={<Home />} />
-        <Route path="/sub1" element={<Sub1 />} />
-        <Route path="*" element={<Navigate to="/home" />} />
+        <Route path="/main" element={<Main />} />
+        <Route path="/write" element={<Write />} />
+        <Route path="/edit/:id" element={<Edit />} />
+        <Route path="*" element={<Navigate to="/main" />} />
       </Routes>
     </>
   );
